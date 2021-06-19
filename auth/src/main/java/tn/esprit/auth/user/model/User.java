@@ -48,6 +48,15 @@ public class User {
 		this.userDetails = userDetails;
 		this.roles = roles;
 	}
+    
+    
+
+
+	public User(UserDetailsImpl userDetails, Set<Role> roles) {
+		super();
+		this.userDetails = userDetails;
+		this.roles = roles;
+	}
 
 
 	public Long getId() {

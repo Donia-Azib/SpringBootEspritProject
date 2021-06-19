@@ -33,17 +33,27 @@ import tn.esprit.auth.user.service.TokenProvider;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	
-	
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		
+		return new BCryptPasswordEncoder();
+		
+	}
 
 	
 	
-	
 	private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher( 
-			new AntPathRequestMatcher("/user/**"),
-			new AntPathRequestMatcher("/actuator/**"));
+			new AntPathRequestMatcher("/user/login"),
+			new AntPathRequestMatcher("/user/register"),
+			new AntPathRequestMatcher("/user/add"),
+			new AntPathRequestMatcher("/user/del"));
 	
 	
-	private static final RequestMatcher PROTECTED_URLS = new NegatedRequestMatcher(PUBLIC_URLS);
+	//private static final RequestMatcher PROTECTED_URLS = new NegatedRequestMatcher(PUBLIC_URLS);
+	private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher( 
+			new AntPathRequestMatcher("/protected"));
+	
+	
 	private final TokenProvider tokenProvider;
 	
 	@Autowired
@@ -77,7 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.authenticationProvider(tokenProvider)
 				.addFilterBefore(restAuthenticationFilter(), AnonymousAuthenticationFilter.class)
 				.authorizeRequests()
-				.requestMatchers(PROTECTED_URLS)
+				.requestMatchers(PROTECTED_URLS)//.hasRole("ADMIN").anyRequest()
 				.authenticated()
 				.and()
 				.csrf().disable()

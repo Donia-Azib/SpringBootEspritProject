@@ -34,6 +34,10 @@ public class TokenProvider extends AbstractUserDetailsAuthenticationProvider {
                     throws AuthenticationException {
             // TODO Auto-generated method stub
             final Object token = authentication.getCredentials();
+            UserDetails user=Optional.ofNullable(token).map(String::valueOf)
+                    .map(userAuthenticationService::findByToken)
+                    .map(User::getUserDetails).get();
+            System.out.println(user.toString());
             return Optional.ofNullable(token).map(String::valueOf)
                             .map(userAuthenticationService::findByToken)
                             .map(User::getUserDetails).get();

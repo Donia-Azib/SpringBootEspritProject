@@ -86,7 +86,7 @@ public class JWTTokenService implements TokenService, Clock {
 	public Map<String, String> verify(String token) {
 		// TODO Auto-generated method stub
 		final JwtParser parser = Jwts.parser().requireIssuer(issuer)
-				.setClock(this)
+				//.setClock(this)
 				.setAllowedClockSkewSeconds(clockSkewSec)
 				.setSigningKey(secretKey);
 		return parseClaims(() -> parser.parseClaimsJws(token).getBody());
@@ -107,7 +107,7 @@ public class JWTTokenService implements TokenService, Clock {
 		}
 		
 		claims.putAll(attributes);
-		return Jwts.builder().setClaims(claims)
+		return Jwts.builder().setClaims(claims)//.compact();
 				.signWith(SignatureAlgorithm.HS256, secretKey)
 				.compressWith(COMPRESSION_CODEC)
 				.compact();
