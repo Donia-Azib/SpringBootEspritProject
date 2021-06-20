@@ -2,14 +2,22 @@ package tn.esprit.auth.user.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import tn.esprit.demande.model.Demande;
 
 
 @Entity
@@ -24,7 +32,15 @@ public class UserDetailsImpl implements UserDetails {
 	private String lastName;
 	private String email;
 	
-
+     //YASSINE
+	
+	  @OneToMany(targetEntity=Demande.class,cascade=CascadeType.ALL)
+	  @JoinColumn(name="ud_fk",referencedColumnName="id")
+	  private List<Demande> demandes;
+	  
+	
+	 //YASSINE
+	
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
