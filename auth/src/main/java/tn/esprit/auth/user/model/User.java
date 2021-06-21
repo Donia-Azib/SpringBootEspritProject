@@ -21,10 +21,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import tn.esprit.auth.entity.Feedback;
-import tn.esprit.auth.entity.Livre;
-import tn.esprit.auth.entity.Offre;
-import tn.esprit.auth.entity.WishList;
+import tn.esprit.auth.entity.*;
 
 @Entity
 @Table(	name = "users", 
@@ -72,6 +69,11 @@ public class User {
 	
 	@OneToOne
 	private WishList wishList;
+
+
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+	private List<Demande> demandes;
+
 
 	public User() {
 	}
@@ -181,6 +183,14 @@ public class User {
 
 	public void setWishList(WishList wishList) {
 		this.wishList = wishList;
+	}
+
+	public List<Demande> getDemandes() {
+		return demandes;
+	}
+
+	public void setDemandes(List<Demande> demandes) {
+		this.demandes = demandes;
 	}
 
 	
