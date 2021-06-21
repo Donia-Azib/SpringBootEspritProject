@@ -1,8 +1,10 @@
 package tn.esprit.auth.user.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,12 +13,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import tn.esprit.auth.entity.Feedback;
+import tn.esprit.auth.entity.Livre;
+import tn.esprit.auth.entity.Offre;
+import tn.esprit.auth.entity.WishList;
 
 @Entity
 @Table(	name = "users", 
@@ -52,6 +60,18 @@ public class User {
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	private List<Livre> livres;
+	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+	private List<Offre> offres;
+	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+	private List<Feedback> feedbacks;
+	
+	@OneToOne
+	private WishList wishList;
 
 	public User() {
 	}
@@ -131,4 +151,37 @@ public class User {
 		this.lastName = lastName;
 	}
 
+	public List<Livre> getLivres() {
+		return livres;
+	}
+
+	public void setLivres(List<Livre> livres) {
+		this.livres = livres;
+	}
+
+	public List<Offre> getOffres() {
+		return offres;
+	}
+
+	public void setOffres(List<Offre> offres) {
+		this.offres = offres;
+	}
+
+	public List<Feedback> getFeedbacks() {
+		return feedbacks;
+	}
+
+	public void setFeedbacks(List<Feedback> feedbacks) {
+		this.feedbacks = feedbacks;
+	}
+
+	public WishList getWishList() {
+		return wishList;
+	}
+
+	public void setWishList(WishList wishList) {
+		this.wishList = wishList;
+	}
+
+	
 }
