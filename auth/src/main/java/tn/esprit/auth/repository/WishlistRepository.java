@@ -5,7 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import tn.esprit.auth.entity.WishList;
 
+
 @Repository
 public interface WishlistRepository extends JpaRepository<WishList, Long> {
+
 
 }

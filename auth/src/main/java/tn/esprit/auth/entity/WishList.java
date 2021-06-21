@@ -22,7 +22,8 @@ public class WishList implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private int nombreDeLivre;
-	
+	private boolean created;
+
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "wishList")
 	private List<Livre> livres = new ArrayList<>();
 	
@@ -57,19 +58,19 @@ public class WishList implements Serializable {
 	public List<Livre> getLivres() {
 		return livres;
 	}
-
-
 	public void setLivres(List<Livre> livres) {
 		this.livres = livres;
 	}
 
-
 	public User getUser() {
 		return user;
 	}
-
-
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public boolean isCreated() { return created; }
+	public void setCreated(boolean creat) {
+		this.created = created;
 	}
 }
