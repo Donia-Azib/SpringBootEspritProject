@@ -3,10 +3,11 @@ package tn.esprit.auth.entity;
 import tn.esprit.auth.user.model.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 @Entity
-public class Demande {
+public class Demande implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
