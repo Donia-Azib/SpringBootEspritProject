@@ -3,6 +3,7 @@ package tn.esprit.auth.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,23 +33,27 @@ public class OffreController {
 	
 	
 //	------------------READ
+	@PreAuthorize("hasRole('ROLE_USER') ")
 	@GetMapping("")
 	public List<Offre> findAll(){
 		return service.findAll();
 	}
 	
+	@PreAuthorize("hasRole('ROLE_USER') ")
 	@GetMapping("/{offreId}")
 	public Response<Offre> findById(@PathVariable Long offreId)
 	{
 		return service.findById(offreId);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_USER') ")
 	@GetMapping("/{offreId}/livres")
 	public List<Livre> findAllBooks(@PathVariable Long offreId)
 	{
 		return service.findAllBooks(offreId);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_USER') ")
 	@GetMapping("/{offreId}/livre/{livreId}")
 	public Response<Livre> findBookById(@PathVariable Long offreId, @PathVariable Long livreId )
 	{
@@ -57,12 +62,13 @@ public class OffreController {
 	
 	
 //	------------------ADD
+	@PreAuthorize("hasRole('ROLE_MANAGEMENT') or hasRole('ROLE_ADMIN') ")
 	@PostMapping("")
 	public Offre save(@RequestBody Offre offre)
 	{
 		return service.save(offre);
 	}
-	
+	@PreAuthorize("hasRole('ROLE_MANAGEMENT') or hasRole('ROLE_ADMIN') ")
 	@PostMapping("/{offreId}/livre/{livreId}")
 	public Response<Offre> saveBook(@PathVariable Long offreId ,@PathVariable Long livreId )
 	{
@@ -71,6 +77,7 @@ public class OffreController {
 	
 	
 //	------------------UPDATE 
+	@PreAuthorize("hasRole('ROLE_MANAGEMENT') or hasRole('ROLE_ADMIN') ")
 	@PutMapping("/{offreId}")
 	public Response<Offre> updateOffreById(@PathVariable Long offreId,@RequestBody Offre offre)
 	{
@@ -79,27 +86,31 @@ public class OffreController {
 	
 	
 //	------------------DELETE
+	@PreAuthorize("hasRole('ROLE_MANAGEMENT') or hasRole('ROLE_ADMIN') ")
 	@DeleteMapping("/{offreId}")
 	public Response<Boolean> deleteById(@PathVariable Long offreId)
 	{
 		return service.deleteById(offreId);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_MANAGEMENT') or hasRole('ROLE_ADMIN') ")
 	@DeleteMapping("/{offreId}/livres")
 	public Response<Boolean> deleteAllBooks(@PathVariable Long offreId)
 	{
 		return service.deleteBooks(offreId);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_MANAGEMENT') or hasRole('ROLE_ADMIN') ")
 	@DeleteMapping("/{offreId}/livre/{bookId}")
 	public Response<Boolean> deleteBookById(@PathVariable Long offreId,@PathVariable Long bookId)
 	{
 		return service.deleteBookById(offreId,bookId);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_MANAGEMENT') or hasRole('ROLE_ADMIN') ")
 	@DeleteMapping("/all")
-	public void deleteAll() {
-		service.deleteAll();
+	public Response<Boolean> deleteAll() {
+		return service.deleteAll();
 	}
 	
 
