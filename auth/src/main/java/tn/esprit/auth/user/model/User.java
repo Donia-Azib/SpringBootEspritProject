@@ -1,5 +1,7 @@
 package tn.esprit.auth.user.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,15 +17,18 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import tn.esprit.auth.entity.Commande;
 import tn.esprit.auth.entity.Feedback;
 import tn.esprit.auth.entity.Livre;
 import tn.esprit.auth.entity.Offre;
+import tn.esprit.auth.entity.Panier;
 import tn.esprit.auth.entity.WishList;
 
 @Entity
@@ -32,9 +37,14 @@ import tn.esprit.auth.entity.WishList;
 			@UniqueConstraint(columnNames = "username"),
 			@UniqueConstraint(columnNames = "email") 
 		})
-public class User {
+public class User implements Serializable {
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -72,9 +82,23 @@ public class User {
 	
 	@OneToOne
 	private WishList wishList;
+	
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+	private Panier panier;
+	
+	@OneToMany( targetEntity=Commande.class,fetch = FetchType.LAZY, mappedBy="user" )
+    private List<Commande> commandes = new ArrayList<>();
 
 	public User() {
 	}
+
+	public User(Long id) {
+		super();
+		this.id = id;
+	}
+
+
 
 	public User(String username, String email, String password) {
 		this.username = username;
@@ -182,6 +206,10 @@ public class User {
 	public void setWishList(WishList wishList) {
 		this.wishList = wishList;
 	}
+	
+	public List<Commande> getCommandes() {
+        return commandes;
+    }
 
 	
 }
