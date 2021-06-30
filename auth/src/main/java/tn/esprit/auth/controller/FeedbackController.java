@@ -47,7 +47,7 @@ public class FeedbackController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_MANAGEMENT')")
-	@DeleteMapping("s/livre/{id}")
+	@DeleteMapping("/all/livre/{id}")
 	public Response<Boolean> deleteAllFeedBackOfOneBook(@PathVariable Long id) {
 		return	service.deleteAllFeedBackOfOneBook(id);
 	}

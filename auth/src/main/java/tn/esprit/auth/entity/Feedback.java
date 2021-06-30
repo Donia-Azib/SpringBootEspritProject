@@ -22,8 +22,10 @@ public class Feedback implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonProperty(value="f_id")
 	private Long id;
-	private double note=0;
+	private double note=-1;
 	private String commentaire;
+	
+	private boolean archiver = false;
 	
 	@JsonIgnore
 	@ManyToOne
@@ -93,6 +95,14 @@ public class Feedback implements Serializable{
 
 	public void setOffre(Offre offre) {
 		this.offre = offre;
+	}
+
+	public boolean isArchiver() {
+		return archiver;
+	}
+
+	public void setArchiver(boolean archiver) {
+		this.archiver = archiver;
 	}
 	
 	
