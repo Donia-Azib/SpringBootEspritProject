@@ -64,7 +64,7 @@ public class DemandeController {
 
 
     //	------------------DELETE
-    @DeleteMapping("/{offreId}")
+    @DeleteMapping("/{demandeId}")
     public Response<Boolean> deleteById(@PathVariable Long demandeId)
     {
         return service.deleteById(demandeId);
