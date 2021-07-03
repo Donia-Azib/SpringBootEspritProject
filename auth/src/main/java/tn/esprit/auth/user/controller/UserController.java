@@ -173,7 +173,7 @@ public class UserController {
 		user.setEmail(signUpRequest.getEmail());
 		user.setFirstName(signUpRequest.getFirstName());
 		user.setLastName(signUpRequest.getLastName());
-		user.setPassword(signUpRequest.getPassword());
+		user.setPassword(encoder.encode(signUpRequest.getPassword()));
 		user.setUsername(signUpRequest.getUsername());
 		
 		Set<String> strRoles = signUpRequest.getRole();
