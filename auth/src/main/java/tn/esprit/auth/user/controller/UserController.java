@@ -1,5 +1,6 @@
 package tn.esprit.auth.user.controller;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,7 +40,7 @@ import tn.esprit.auth.user.security.service.jwt.JwtUtils;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/bookstore")
-public class TestController {
+public class UserController {
 	
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -69,9 +70,9 @@ public class TestController {
 	}
 
 	@GetMapping("/man")
-	@PreAuthorize("hasRole('MANAGEMENT')")
+	@PreAuthorize("hasRole('MANAGEMENT') or hasRole('ADMIN')")
 	public String moderatorAccess() {
-		return "Moderator Board.";
+		return "Management Board.";
 	}
 
 	@GetMapping("/admin")
@@ -97,7 +98,7 @@ public class TestController {
 					.body(new MessageResponse("Error: Email is already in use!"));
 		}
 
-		// Create new user's account
+		// Create new user
 		User user = new User(signUpRequest.getUsername(), 
 							 signUpRequest.getEmail(),
 							 signUpRequest.getFirstName(),
@@ -144,6 +145,13 @@ public class TestController {
 	@PostMapping("/user/del")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> delUser(@Valid @RequestParam String username) {
+		
+		if (userRepository.existsByUsername(username)==false) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: No such user!"));
+		}
+		
 		User user=userRepository.findByUsername(username).get();	
 		userRepository.delete(user);
 
@@ -154,6 +162,12 @@ public class TestController {
 	@PutMapping("/user/mod")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> modUser(@Valid @RequestBody SignupRequest signUpRequest) {
+		
+		if (userRepository.existsByUsername(signUpRequest.getUsername())==false) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: No such user!"));
+		}
 	
 		User user=userRepository.findByUsername(signUpRequest.getUsername()).get();
 		user.setEmail(signUpRequest.getEmail());
@@ -197,6 +211,13 @@ public class TestController {
 		return ResponseEntity.ok(new MessageResponse("User modified successfully!"));
 	}
 	
+	
+	@GetMapping("/user/getall")
+	@PreAuthorize("hasRole('MANAGEMENT') or hasRole('ADMIN')")
+	public ResponseEntity<?> getAllUsers() {
+		Collection<User> users=userRepository.findAll();	
+		return ResponseEntity.ok(users);
+	}
 	
 	
 	
