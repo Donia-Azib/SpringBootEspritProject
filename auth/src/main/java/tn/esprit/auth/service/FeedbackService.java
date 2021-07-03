@@ -76,7 +76,7 @@ public class FeedbackService {
 						count++;
 					}
 				}
-				livre.setNote(total / count);
+				livre.setNote( (double) Math.round(total/count));
 
 				livre.setFeedbacks(oldFeedbacks);
 				livre.setNbComment(oldFeedbacks.size());
@@ -298,7 +298,7 @@ public class FeedbackService {
 						count++;
 					}
 				}
-				offre.setNote(total / count);
+				offre.setNote((double) Math.round(total/count));
 
 				offre.setFeedbacks(oldFeedbacks);
 				offre.setNbComment(oldFeedbacks.size());

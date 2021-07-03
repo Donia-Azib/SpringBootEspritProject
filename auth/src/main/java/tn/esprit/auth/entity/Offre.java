@@ -34,7 +34,7 @@ public class Offre implements Serializable{
 //	add 
 	private double prix_total=0;
 	private double prix_pourcentage =0;
-	private double note;
+	private double note=-1;
 	private int nbComment=0;
 	
 	@OneToMany(mappedBy = "offre")

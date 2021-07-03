@@ -32,7 +32,7 @@ public class Livre implements Serializable{
 	private float prix;
 	private boolean disponibilite;
 	private int quantite;
-	private double note;
+	private double note=-1;
 	private int nbComment=0;
 	
 	@JsonIgnore

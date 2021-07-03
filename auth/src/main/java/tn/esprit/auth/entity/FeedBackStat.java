@@ -8,6 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import tn.esprit.auth.model.MaskingFilter;
+
+
 @Entity
 public class FeedBackStat implements Serializable {
 
@@ -15,18 +20,41 @@ public class FeedBackStat implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private int nbPositiveCommentsBook = 0;
-	private int nbNegativeCommentsBook = 0;
-	private int nbRejectedCommentsBook = 0;
-
-	private int nbPositiveCommentsOffer = 0;
-	private int nbNegativeCommentsOffer = 0;
-	private int nbRejectedCommentsOffer = 0;
+	@JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = MaskingFilter.class)
+	private int nbPositiveCommentsBook ;
+	@JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = MaskingFilter.class)
+	private int nbNegativeCommentsBook ;
+	@JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = MaskingFilter.class)
+	private int nbRejectedCommentsBook ;
+	
+	@JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = MaskingFilter.class)
+	private int nbPositiveCommentsOffer;	
+	@JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = MaskingFilter.class)
+	private int nbNegativeCommentsOffer ;
+	@JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = MaskingFilter.class)
+	private int nbRejectedCommentsOffer ;
 
 	private LocalDate date = LocalDate.now();
 
 	public FeedBackStat() {
 	}
+
+
+
+	public FeedBackStat(int id,int nbPositiveCommentsBook, int nbNegativeCommentsBook, int nbRejectedCommentsBook,
+			int nbPositiveCommentsOffer, int nbNegativeCommentsOffer, int nbRejectedCommentsOffer, LocalDate date) {
+		super();
+		this.id=(long) id;
+		this.nbPositiveCommentsBook = nbPositiveCommentsBook;
+		this.nbNegativeCommentsBook = nbNegativeCommentsBook;
+		this.nbRejectedCommentsBook = nbRejectedCommentsBook;
+		this.nbPositiveCommentsOffer = nbPositiveCommentsOffer;
+		this.nbNegativeCommentsOffer = nbNegativeCommentsOffer;
+		this.nbRejectedCommentsOffer = nbRejectedCommentsOffer;
+		this.date = date;
+	}
+
+
 
 	public Long getId() {
 		return id;
