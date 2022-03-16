@@ -42,7 +42,7 @@ public class Livre implements Serializable{
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "livre")
 	private List<Feedback> feedbacks ;
-	
+
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<User> users ;
