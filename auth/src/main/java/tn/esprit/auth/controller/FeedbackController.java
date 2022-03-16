@@ -23,21 +23,21 @@ import tn.esprit.auth.service.FeedbackService;
 public class FeedbackController {
 	@Autowired
 	private FeedbackService service;
-	
+
 //	------------------------------BOOK
 	@GetMapping("/livre/{id}")
 	public List<Feedback> findAllFeebackOfABook(@PathVariable Long id)
 	{
 		return service.findAllFeebackOfABook(id);
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@PostMapping("/livre/{id}")
 	public Response<Boolean> addFeebacks(@PathVariable Long id , @RequestBody Feedback feedback,@CurrentSecurityContext(expression = "authentication?.name") String username)
 	{
 		return service.addFeebacks(id, username , feedback);
 	}
-	
+
 
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@PutMapping("/livre/{id}")
@@ -45,26 +45,26 @@ public class FeedbackController {
 	{
 		return service.updateUserFeedback(id, username , feedback);
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_MANAGEMENT')")
-	@DeleteMapping("s/livre/{id}")
+	@DeleteMapping("/all/livre/{id}")
 	public Response<Boolean> deleteAllFeedBackOfOneBook(@PathVariable Long id) {
 		return	service.deleteAllFeedBackOfOneBook(id);
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@DeleteMapping("/livre/{id}")
 	public Response<Boolean> deleteUserComment(@PathVariable Long id,@CurrentSecurityContext(expression = "authentication?.name") String username,@RequestBody(required=true) Feedback feedback) {
 		return	service.deleteUserComment(id,username,feedback);
 	}
-	
+
 //	------------------------------OFFER
 	@GetMapping("/offre/{id}")
 	public List<Feedback> findAllFeebackOfAOffer(@PathVariable Long id)
 	{
 		return service.findAllFeebackOfAOffer(id);
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@PostMapping("/offre/{id}")
 	public Response<Boolean> addFeebacksInOffer(@PathVariable Long id , @RequestBody Feedback feedback,@CurrentSecurityContext(expression = "authentication?.name") String username)
@@ -78,7 +78,7 @@ public class FeedbackController {
 	{
 		return service.updateUserFeedbackOfAnOffer(id, username , feedback);
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@DeleteMapping("/offre/{id}")
 	public Response<Boolean> deleteUserOfferComment(@PathVariable Long id,@CurrentSecurityContext(expression = "authentication?.name") String username,@RequestBody(required=true) Feedback feedback) {

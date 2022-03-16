@@ -31,12 +31,12 @@ public class Offre implements Serializable{
 	private int quantite;
 	private boolean diponibilite;
 	
-//	add 
+//	add
 	private double prix_total=0;
 	private double prix_pourcentage =0;
-	private double note;
+	private double note=-1;
 	private int nbComment=0;
-	
+
 	@OneToMany(mappedBy = "offre")
 	private List<Livre> livres = new ArrayList<>();
 	
@@ -46,7 +46,7 @@ public class Offre implements Serializable{
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "offre")
 	@JsonProperty("feedbacks")
 	private List<Feedback> feedbacks ;
-	
+
 	public Offre(float pourcentage, String date_debut, String date_fin, int quantite) {
 		this.pourcentage = pourcentage;
 		this.date_debut = date_debut;
@@ -151,9 +151,9 @@ public class Offre implements Serializable{
 	public void setFeedbacks(List<Feedback> feedbacks) {
 		this.feedbacks = feedbacks;
 	}
-	
-	
-	
-	
+
+
+
+
 
 }

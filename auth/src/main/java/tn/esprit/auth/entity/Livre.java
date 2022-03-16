@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import tn.esprit.auth.user.model.User;
 
@@ -32,9 +31,9 @@ public class Livre implements Serializable{
 	private float prix;
 	private boolean disponibilite;
 	private int quantite;
-	private double note;
+	private double note=-1;
 	private int nbComment=0;
-	
+
 	@JsonIgnore
 	@ManyToOne
 	private Offre offre;
@@ -44,7 +43,6 @@ public class Livre implements Serializable{
 	private WishList wishList;
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "livre")
-	@JsonProperty("feedbacks")
 	private List<Feedback> feedbacks ;
 	
 	@JsonIgnore
@@ -182,6 +180,6 @@ public class Livre implements Serializable{
 	public void setNbComment(int nbComment) {
 		this.nbComment = nbComment;
 	}
-	
+
 	
 }

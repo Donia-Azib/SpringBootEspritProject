@@ -33,27 +33,27 @@ public class OffreController {
 	
 	
 //	------------------READ
-	@PreAuthorize("hasRole('ROLE_USER') ")
+	@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_MANAGEMENT') or hasRole('ROLE_ADMIN')")
 	@GetMapping("")
 	public List<Offre> findAll(){
 		return service.findAll();
 	}
 	
-	@PreAuthorize("hasRole('ROLE_USER') ")
+	@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_MANAGEMENT') or hasRole('ROLE_ADMIN')")
 	@GetMapping("/{offreId}")
 	public Response<Offre> findById(@PathVariable Long offreId)
 	{
 		return service.findById(offreId);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_USER') ")
+	@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_MANAGEMENT') or hasRole('ROLE_ADMIN')")
 	@GetMapping("/{offreId}/livres")
 	public List<Livre> findAllBooks(@PathVariable Long offreId)
 	{
 		return service.findAllBooks(offreId);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_USER') ")
+	@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_MANAGEMENT') or hasRole('ROLE_ADMIN')")
 	@GetMapping("/{offreId}/livre/{livreId}")
 	public Response<Livre> findBookById(@PathVariable Long offreId, @PathVariable Long livreId )
 	{

@@ -22,9 +22,11 @@ public class Feedback implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonProperty(value="f_id")
 	private Long id;
-	private double note=0;
+	private int note;
 	private String commentaire;
 	
+	private boolean archiver = false;
+
 	@JsonIgnore
 	@ManyToOne
 	private Livre livre;
@@ -32,7 +34,7 @@ public class Feedback implements Serializable{
 	@JsonIgnore
 	@ManyToOne
 	private Offre offre;
-	
+
 	@ManyToOne(targetEntity = User.class)
 	private User user;
 	
@@ -94,7 +96,15 @@ public class Feedback implements Serializable{
 	public void setOffre(Offre offre) {
 		this.offre = offre;
 	}
-	
+
+	public boolean isArchiver() {
+		return archiver;
+	}
+
+	public void setArchiver(boolean archiver) {
+		this.archiver = archiver;
+	}
+
 	
 
 }
