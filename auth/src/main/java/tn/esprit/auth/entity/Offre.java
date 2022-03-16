@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import tn.esprit.auth.user.model.User;
 
 
@@ -29,11 +31,21 @@ public class Offre implements Serializable{
 	private int quantite;
 	private boolean diponibilite;
 	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "offre")
+//	add 
+	private double prix_total=0;
+	private double prix_pourcentage =0;
+	private double note=-1;
+	private int nbComment=0;
+	
+	@OneToMany(mappedBy = "offre")
 	private List<Livre> livres = new ArrayList<>();
 	
 	@ManyToOne
 	private User user;
+	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "offre")
+	@JsonProperty("feedbacks")
+	private List<Feedback> feedbacks ;
 	
 	public Offre(float pourcentage, String date_debut, String date_fin, int quantite) {
 		this.pourcentage = pourcentage;
@@ -98,6 +110,46 @@ public class Offre implements Serializable{
 
 	public void setDiponibilite(boolean diponibilite) {
 		this.diponibilite = diponibilite;
+	}
+
+	public double getPrix_total() {
+		return prix_total;
+	}
+
+	public void setPrix_total(double prix_total) {
+		this.prix_total = prix_total;
+	}
+
+	public double getPrix_pourcentage() {
+		return prix_pourcentage;
+	}
+
+	public void setPrix_pourcentage(double prix_pourcentage) {
+		this.prix_pourcentage = prix_pourcentage;
+	}
+
+	public double getNote() {
+		return note;
+	}
+
+	public void setNote(double note) {
+		this.note = note;
+	}
+
+	public int getNbComment() {
+		return nbComment;
+	}
+
+	public void setNbComment(int nbComment) {
+		this.nbComment = nbComment;
+	}
+
+	public List<Feedback> getFeedbacks() {
+		return feedbacks;
+	}
+
+	public void setFeedbacks(List<Feedback> feedbacks) {
+		this.feedbacks = feedbacks;
 	}
 	
 	

@@ -1,11 +1,8 @@
 package tn.esprit.auth.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -97,7 +94,11 @@ public class OffreService {
 
 						oldOBooks.add(livre);
 						oldOffre.setLivres(oldOBooks);
-
+						double price = oldOffre.getPrix_total()+livre.getPrix();
+						double pricePer = price-((price*oldOffre.getPourcentage())/100);
+						logger.info("------price total "+price+"/....pricePer = "+pricePer);
+						oldOffre.setPrix_total(price);
+						oldOffre.setPrix_pourcentage(pricePer);
 						livre.setOffre(oldOffre);
 						livreRepo.save(livre);
 						return new ResponseService<Offre>().getSuccessResponse(oldOffre);
@@ -126,14 +127,26 @@ public class OffreService {
 //	------------------DELETE
 	public Response<Boolean> deleteById(Long id) {
 		if (existsById(id)) {
+			List<Livre> livres = OffreRepo.findById(id).get().getLivres();
+			livres.stream().forEach(l->{
+				l.setOffre(null);
+				livreRepo.save(l);
+			});
 			OffreRepo.deleteById(id);
 			return new ResponseService<Boolean>().getSuccessResponse(true);
 		} else
 			return new ResponseService<Boolean>().getFailedResponse("this offer does not exist...");
 	}
 
-	public void deleteAll() {
+	public Response<Boolean> deleteAll() {
+		OffreRepo.findAll().stream().forEach(offre->{
+			offre.getLivres().stream().forEach(livre->{
+				livre.setOffre(null);
+				livreRepo.save(livre);
+			});
+		});
 		OffreRepo.deleteAll();
+		return new ResponseService<Boolean>().getSuccessResponse(true);
 	}
 
 	public Response<Boolean> deleteBooks(Long offreId) {
@@ -148,6 +161,9 @@ public class OffreService {
 			oldOffre.setLivres(oldOBooks);
 
 			logger.info("**list offer size =" + (oldOffre.getLivres().size()));
+//			add
+			oldOffre.setPrix_total(0);
+			oldOffre.setPrix_pourcentage(0);
 			OffreRepo.save(oldOffre);
 			return new ResponseService<Boolean>().getSuccessResponse(true);
 		} else
@@ -163,8 +179,15 @@ public class OffreService {
 				List<Livre> oldOBooks = oldOffre.getLivres();
 				logger.info("---index of the book to delete .. " + oldOBooks.indexOf(livre));
 				oldOBooks.remove(oldOBooks.indexOf(livre));
+				
+//				add
+				oldOffre.setPrix_total(oldOffre.getPrix_total()-livre.getPrix());
+				oldOffre.setPrix_pourcentage((oldOffre.getPrix_total())-((oldOffre.getPrix_total()*oldOffre.getPourcentage())/100));
+				
 				livre.setOffre(null);
 				livreRepo.save(livre);
+//				add
+				OffreRepo.save(oldOffre);
 				return new ResponseService<Boolean>().getSuccessResponse(true);
 			} else
 				return new ResponseService<Boolean>().getFailedResponse("this book does not exist...");
