@@ -27,13 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 import tn.esprit.auth.user.model.ERole;
 import tn.esprit.auth.user.model.Role;
 import tn.esprit.auth.user.model.User;
-import tn.esprit.auth.user.payload.request.LoginRequest;
 import tn.esprit.auth.user.payload.request.SignupRequest;
-import tn.esprit.auth.user.payload.response.JwtResponse;
 import tn.esprit.auth.user.payload.response.MessageResponse;
 import tn.esprit.auth.user.repository.RoleRepository;
 import tn.esprit.auth.user.repository.UserRepository;
-import tn.esprit.auth.user.security.service.UserDetailsImpl;
 import tn.esprit.auth.user.security.service.jwt.JwtUtils;
 
 @CrossOrigin(origins = "*", maxAge = 3600)

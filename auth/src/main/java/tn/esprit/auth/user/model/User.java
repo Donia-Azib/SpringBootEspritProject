@@ -21,6 +21,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import tn.esprit.auth.entity.Feedback;
 import tn.esprit.auth.entity.Livre;
 import tn.esprit.auth.entity.Offre;
@@ -67,6 +69,7 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
 	private List<Offre> offres;
 	
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
 	private List<Feedback> feedbacks;
 	

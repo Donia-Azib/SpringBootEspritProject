@@ -1,5 +1,6 @@
 package tn.esprit.auth.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +41,17 @@ public class LivreService {
 	}
 
 	public List<Livre> findAll() {
-		return livreRepo.findAll();
+		List<Livre> livres = new ArrayList<>();
+		livreRepo.findAll().forEach(l->{
+			if (l.isDisponibilite()) {
+				livres.add(l);
+			}
+		});
+		return livres;
 	}
 
 	public Response<Livre> findById(Long ref) {
-		if (existsById(ref))
+		if (existsById(ref) && livreRepo.findById(ref).get().isDisponibilite())
 			return new ResponseService<Livre>().getSuccessResponse(livreRepo.findById(ref).get());
 		else
 			return new ResponseService<Livre>().getFailedResponse("This book does not exist ...");
@@ -65,5 +72,6 @@ public class LivreService {
 		} else
 			return new ResponseService<Boolean>().getFailedResponse("this book does not exist ...");
 	}
+
 
 }
