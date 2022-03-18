@@ -28,7 +28,7 @@ public class LivreController {
 		this.livreSer = livreSer;
 	}
 	
-	@PostMapping("")
+	@PostMapping("/add")
 	public Livre addBook(@RequestBody Livre livre)
 	{
 		return livreSer.save(livre);

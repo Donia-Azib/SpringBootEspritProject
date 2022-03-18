@@ -11,9 +11,9 @@ import tn.esprit.auth.user.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 	Optional<User> findByUsername(String username);
-
+	
+	User findByCommandes_id(Long id) ;
 	Boolean existsByUsername(String username);
-
 	Boolean existsByEmail(String email);
 	public Optional<User> findById(Long id);
 }

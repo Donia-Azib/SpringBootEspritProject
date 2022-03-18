@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,6 +14,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import tn.esprit.auth.user.model.User;
 
 
 @Entity
@@ -23,6 +27,7 @@ public class Reclamation implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long reference;
 	private String description;
 	private String type;
@@ -33,6 +38,10 @@ public class Reclamation implements Serializable{
     @JsonIgnore
 	private Commande commande;
 	
+	 @ManyToOne
+	 @JsonIgnore
+	 @JoinColumn(name="user_id", nullable=false)
+	 private User user;
 	
 	public Reclamation(Commande commande, Long reference, String description, String type) {
 		super();
@@ -72,6 +81,14 @@ public class Reclamation implements Serializable{
 
 	public void setCommande(Commande commande) {
 		this.commande = commande;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	

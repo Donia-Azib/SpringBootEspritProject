@@ -29,6 +29,8 @@ import tn.esprit.auth.entity.Feedback;
 import tn.esprit.auth.entity.Livre;
 import tn.esprit.auth.entity.Offre;
 import tn.esprit.auth.entity.Panier;
+import tn.esprit.auth.entity.Promo;
+import tn.esprit.auth.entity.Reclamation;
 import tn.esprit.auth.entity.WishList;
 
 @Entity
@@ -78,6 +80,9 @@ public class User implements Serializable {
 	private List<Offre> offres;
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+	private List<Promo> promos;
+	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
 	private List<Feedback> feedbacks;
 	
 	@OneToOne
@@ -89,6 +94,9 @@ public class User implements Serializable {
 	
 	@OneToMany( targetEntity=Commande.class,fetch = FetchType.LAZY, mappedBy="user" )
     private List<Commande> commandes = new ArrayList<>();
+	
+	@OneToMany( targetEntity=Reclamation.class,fetch = FetchType.LAZY, mappedBy="user" )
+    private List<Reclamation> reclamation = new ArrayList<>();
 
 	public User() {
 	}
@@ -210,6 +218,38 @@ public class User implements Serializable {
 	public List<Commande> getCommandes() {
         return commandes;
     }
+
+	public List<Promo> getPromos() {
+		return promos;
+	}
+
+	public void setPromos(List<Promo> promos) {
+		this.promos = promos;
+	}
+
+	public Panier getPanier() {
+		return panier;
+	}
+
+	public void setPanier(Panier panier) {
+		this.panier = panier;
+	}
+
+	public void setCommandes(List<Commande> commandes) {
+		this.commandes = commandes;
+	}
+
+	public List<Reclamation> getReclamation() {
+		return reclamation;
+	}
+
+	public void setReclamation(List<Reclamation> reclamation) {
+		this.reclamation = reclamation;
+	}
+	
+	
+	
+	
 
 	
 }

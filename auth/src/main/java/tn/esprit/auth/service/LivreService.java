@@ -42,6 +42,10 @@ public class LivreService {
 	public List<Livre> findAll() {
 		return livreRepo.findAll();
 	}
+	
+	public List<Livre> findAllByUserId(Long id) {
+		return livreRepo.findAllByUsers_Id(id);
+	}
 
 	public Response<Livre> findById(Long ref) {
 		if (existsById(ref))

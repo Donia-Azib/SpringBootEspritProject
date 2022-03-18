@@ -32,13 +32,17 @@ public class Livre implements Serializable{
 	private boolean disponibilite;
 	private int quantite;
 	
-	@JsonIgnore
+
 	@ManyToOne
 	private Offre offre;
 	
 	@JsonIgnore
 	@ManyToOne
 	private WishList wishList;
+	
+	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.ALL,mappedBy = "livres")
+	private List<Panier> paniers ;
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "livre")
 	private List<Feedback> feedbacks ;
@@ -47,8 +51,10 @@ public class Livre implements Serializable{
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<User> users ;
 	
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL,mappedBy = "livres")
 	private List<Commande> commandes ;
+	
 	
 	public Livre(Long reference, String titre, String description, String auteur, float prix, boolean disponibilite,
 			int quantite) {
@@ -158,6 +164,17 @@ public class Livre implements Serializable{
 	public void setCommandes(List<Commande> commandes) {
 		this.commandes = commandes;
 	}
+
+
+	public List<Panier> getPaniers() {
+		return paniers;
+	}
+
+
+	public void setPaniers(List<Panier> paniers) {
+		this.paniers = paniers;
+	}
+	
 	
 	
 }

@@ -19,6 +19,7 @@ import tn.esprit.auth.entity.Reclamation;
 import tn.esprit.auth.model.Response;
 import tn.esprit.auth.repository.CommandeRepository;
 import tn.esprit.auth.service.ReclamationService;
+import tn.esprit.auth.user.repository.UserRepository;
 
 @RestController
 @RequestMapping("/rest")
@@ -26,6 +27,9 @@ public class ReclamationController {
 
 	@Autowired
 	private CommandeRepository commandeRepo;
+	
+	@Autowired
+	private UserRepository userRepo;
 
 	private final ReclamationService ReclamationSer;
 	
@@ -34,17 +38,18 @@ public class ReclamationController {
 		this.ReclamationSer = ReclamationSer;
 	}
 	
-	@PostMapping("/commande/{commandeId}/reclamation")
-	public Reclamation addReclamation(@PathVariable Long commandeId, @Valid @RequestBody Reclamation reclamation) throws NotFoundException
+	@PostMapping("/commande/{commandeId}/{userId}/reclamation")
+	public Reclamation addReclamation(@PathVariable Long commandeId,@PathVariable Long userId, @Valid @RequestBody Reclamation reclamation) throws NotFoundException
 	{
-		return commandeRepo.findById(commandeId).map(commande ->{
-			reclamation.setCommande(commande);
+		return userRepo.findById(userId).map(user ->{
+			reclamation.setUser(user);
+			reclamation.setCommande(commandeRepo.findById(commandeId).get());
 			return ReclamationSer.save(reclamation);
 			}).orElseThrow(() -> new NotFoundException("Commande introuvable"));
 	
 	}
 	
-	@GetMapping("/all")
+	@GetMapping("/reclamation/all")
 	public List<Reclamation> allReclamation()
 	{
 		return ReclamationSer.findAll();

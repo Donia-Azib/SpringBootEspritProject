@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import tn.esprit.auth.user.model.User;
 
 
@@ -30,18 +32,28 @@ public class Offre implements Serializable{
 	private boolean diponibilite;
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "offre")
+	@JsonIgnore
 	private List<Livre> livres = new ArrayList<>();
 	
 	@ManyToOne
+	@JsonIgnore
 	private User user;
 	
-	public Offre(float pourcentage, String date_debut, String date_fin, int quantite) {
+	
+	public Offre(Long reference, float pourcentage, String date_debut, String date_fin, int quantite,
+			boolean diponibilite, List<Livre> livres, User user) {
+		super();
+		this.reference = reference;
 		this.pourcentage = pourcentage;
 		this.date_debut = date_debut;
 		this.date_fin = date_fin;
 		this.quantite = quantite;
+		this.diponibilite = diponibilite;
+		this.livres = livres;
+		this.user = user;
 	}
-	
+
+
 	public Offre() {
 	}
 

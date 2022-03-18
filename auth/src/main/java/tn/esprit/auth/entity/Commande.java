@@ -29,6 +29,7 @@ public class Commande implements Serializable{
 	private String date;
 	private String status;
 	private float total;
+	private String codepromo ; 
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Livre> livres ;
@@ -40,13 +41,14 @@ public class Commande implements Serializable{
 
 
 	
-	public Commande(String reference, String date, String status, float total, List<Livre> livres) {
+	public Commande(String reference, String date, String status, float total, List<Livre> livres, String codepromo) {
 		super();
 		this.reference = reference;
 		this.date = date;
 		this.status = status;
 		this.total = total;
 		this.livres = livres;
+		this.codepromo = codepromo;
 	}
 
 
@@ -102,6 +104,19 @@ public class Commande implements Serializable{
     public void setUser(User user) {
         this.user = user;
   }
+
+
+	public String getCodepromo() {
+		return codepromo;
+	}
+
+
+	public void setCodepromo(String codepromo) {
+		this.codepromo = codepromo;
+	}
+
+
+	
 
 
 
