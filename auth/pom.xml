@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.0</version>
+		<version>2.6.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>tn.esprit</groupId>
@@ -21,8 +21,14 @@
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             
-        </dependency>
-	
+		</dependency>
+			<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+
 		<dependency>
 		    <groupId>com.google.guava</groupId>
 		    <artifactId>guava-collections</artifactId>
@@ -50,7 +56,16 @@
 		    <version>0.9.1</version>
 		</dependency>
 				
-	
+	<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    <version>3.1.1</version>
+</dependency>
+
+
+
+
+
 	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
