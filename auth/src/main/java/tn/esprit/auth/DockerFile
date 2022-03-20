@@ -1,0 +1,5 @@
+FROM java:8
+WORKDIR app
+ADD /target/bookservices-1.0.jar bookservices-1.0.jar
+ENTRYPOINT ["java","-jar","bookservices-1.0.jar"]
+EXPOSE 8081
