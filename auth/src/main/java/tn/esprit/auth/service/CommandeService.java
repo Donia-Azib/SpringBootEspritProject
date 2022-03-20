@@ -1,20 +1,18 @@
 package tn.esprit.auth.service;
 
-import java.util.List;
-
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import tn.esprit.auth.entity.Commande;
 import tn.esprit.auth.model.Response;
 import tn.esprit.auth.model.ResponseService;
 import tn.esprit.auth.repository.CommandeRepository;
 import tn.esprit.auth.repository.LivreRepository;
 import tn.esprit.auth.user.model.User;
+
+import java.util.List;
 
 @Service
 @Transactional
