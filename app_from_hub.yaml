@@ -1,0 +1,135 @@
+version: '3.3'
+services:
+  mysql-db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'bookstore'
+      MYSQL_ROOT_PASSWORD: 'pass'
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3306:3306'
+    volumes:
+      - ./my-db:/var/lib/mysql
+  eureka-server:
+    image: ahmedesprit/eureka-server:1.0
+    restart: always
+    environment:
+      EUREKA_INSTANCE_PREFERIPADDRESS: "true"
+    ports:
+      - '8761:8761'
+  api-gateway:
+    image: ahmedesprit/api_gateway:1.0
+    restart: always
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      EUREKA_INSTANCE_PREFERIPADDRESS: "true"
+      SERVER_PORT: 8081
+    ports:
+      - '8081:8081'
+    links:
+     - eureka-server
+    depends_on:
+     - eureka-server
+  config-server:
+    image: ahmedesprit/config-server:1.0
+    restart: always
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      EUREKA_INSTANCE_PREFERIPADDRESS: "true"
+    ports:
+      - '8888:8888'
+    links:
+     - eureka-server
+    depends_on:
+     - eureka-server 
+  auth:
+    image: ahmedesprit/auth:2.0
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/bookstore
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      EUREKA_INSTANCE_PREFERIPADDRESS: "true"
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_CONFIG_IMPORT: "optional:configserver:http://config-server:8888/auth/"
+#    ports:
+#      - '8082:8082'
+    links:
+     - eureka-server
+     - config-server
+    depends_on:
+      - "eureka-server"
+      - "mysql-db"
+      - "config-server"
+  command-app:
+    image: ahmedesprit/commande-app:1.0
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/bookstore
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      EUREKA_INSTANCE_PREFERIPADDRESS: "true"
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_CONFIG_IMPORT: "optional:configserver:http://config-server:8888/commandapp/"
+#    ports:
+#      - '8083:8083'
+    links:
+     - eureka-server
+     - config-server
+    depends_on:
+      - "eureka-server"
+      - "mysql-db"
+      - "config-server"
+  demande:
+    image: ahmedesprit/demande:1.0
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/bookstore
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      EUREKA_INSTANCE_PREFERIPADDRESS: "true"
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_CONFIG_IMPORT: "optional:configserver:http://config-server:8888/demande/"
+#    ports:
+#      - '8084:8084'
+    links:
+     - eureka-server
+     - config-server
+    depends_on:
+      - "eureka-server"
+      - "mysql-db"
+      - "config-server"
+  feedbackstat:
+    image: ahmedesprit/feedbackstat:1.0
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/bookstore
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      EUREKA_INSTANCE_PREFERIPADDRESS: "true"
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_CONFIG_IMPORT: "optional:configserver:http://config-server:8888/feedbackstat/"
+#    ports:
+#      - '8085:8085'
+    links:
+     - eureka-server
+     - config-server
+    depends_on:
+      - "eureka-server"
+      - "mysql-db"
+      - "config-server"
+  book-service:
+    image: ahmedesprit/book-service:1.0
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/bookstore
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      EUREKA_INSTANCE_PREFERIPADDRESS: "true"
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_CONFIG_IMPORT: "optional:configserver:http://config-server:8888/book-service/"
+#    ports:
+#      - '8085:8085'
+    links:
+     - eureka-server
+     - config-server
+    depends_on:
+      - "eureka-server"
+      - "mysql-db"
+      - "config-server"
